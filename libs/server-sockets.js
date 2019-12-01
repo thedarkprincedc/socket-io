@@ -15,7 +15,20 @@ module.exports = function(http){
             socket.emit('chat', {ack: true});
         })
     }
-
+    var chat = io
+        .of('/chat')
+        .on('connection', function(socket){
+            console.log('connected to /chat')
+            socket.emit('a message', {
+                that: 'only'
+              , '/chat': 'will get'
+            });
+            // chat.emit('a message', {
+            //     everyone: 'in'
+            //   , '/chat': 'will get'
+            // });
+        })
     io.sockets.on('connection', handleClient);
+    
     return serverSockets;
 }
